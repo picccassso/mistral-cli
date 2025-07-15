@@ -1,0 +1,2 @@
+[console_scripts]
+mistral-cli = mistral_cli.main:main

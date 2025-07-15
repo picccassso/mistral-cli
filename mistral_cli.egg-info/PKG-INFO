@@ -1,0 +1,233 @@
+Metadata-Version: 2.4
+Name: mistral-cli
+Version: 1.0.0
+Summary: A command-line interface for Mistral 7B with multiple operational modes
+Author: Mistral CLI Team
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: requests>=2.31.0
+Requires-Dist: beautifulsoup4>=4.12.0
+Requires-Dist: lxml>=4.9.0
+Dynamic: author
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# Mistral CLI
+
+A powerful command-line interface for interacting with Mistral 7B through Ollama. Features multiple operational modes, context management, and web search integration.
+
+## Features
+
+- 🤖 **Direct Mode**: Natural conversation with Mistral 7B
+- 📋 **Plan Mode**: Step-by-step planning and reasoning
+- 💻 **Code Mode**: Code generation with/without comments
+- 🔍 **Research Mode**: Web search + AI responses
+- 🗜️ **Context Management**: Automatic conversation summarization
+- 🖥️ **Interactive CLI**: Persistent conversations like Claude Code
+
+## Quick Start
+
+```bash
+# Install the CLI
+pip install -e .
+
+# Run interactive mode
+mistral-cli
+
+# Single query
+mistral-cli "What is machine learning?"
+
+# Different modes
+mistral-cli --mode plan "Learn Python"
+mistral-cli --mode code "Write a hello world function"
+mistral-cli --mode research "Latest AI news"
+```
+
+## Installation
+
+### Prerequisites
+
+1. **Install Ollama**: https://ollama.ai/download
+2. **Download Mistral model**:
+   ```bash
+   ollama serve
+   ollama pull mistral
+   ```
+
+### Install Mistral CLI
+
+```bash
+# Clone the repository
+git clone <repository-url>
+cd mistral-cli
+
+# Install in development mode
+pip install -e .
+
+# Or install from PyPI (when available)
+pip install mistral-cli
+```
+
+## Usage
+
+### Interactive Mode (Default)
+
+```bash
+mistral-cli
+```
+
+This launches an interactive session where you can:
+- Ask questions directly
+- Switch between modes with `/mode <name>`
+- Manage context with `/compact`
+- Get help with `/help`
+
+### Single Query Mode
+
+```bash
+# Direct mode
+mistral-cli "Explain quantum computing"
+
+# Plan mode
+mistral-cli --mode plan "Create a fitness routine"
+
+# Code mode
+mistral-cli --mode code "Write a REST API"
+mistral-cli --mode code --no-comments "Write a REST API"
+
+# Research mode (requires API setup)
+mistral-cli --mode research "Latest AI developments"
+```
+
+### Interactive Commands
+
+- `/help` - Show help and current context usage
+- `/mode <name>` - Switch to plan, code, research, or direct mode
+- `/compact` - Manually compact conversation history
+- `/exit` or `/quit` - Exit the CLI
+
+## Setup Research Mode
+
+Research mode requires Google Custom Search API:
+
+```bash
+mistral-cli --setup
+```
+
+Follow the prompts to configure:
+1. Google Custom Search API key
+2. Custom Search Engine ID
+
+## Configuration
+
+Settings are stored in `~/.mistral_cli_config`:
+
+```json
+{
+  "search_api_key": "your-api-key",
+  "search_engine_id": "your-engine-id"
+}
+```
+
+## Context Management
+
+The CLI automatically manages conversation context:
+
+- **Token Tracking**: Shows usage after each response
+- **Auto-Compact**: Triggers at 99% context usage
+- **Manual Compact**: Use `/compact` command
+- **Smart Summarization**: Preserves important context
+
+## Examples
+
+### Planning
+```bash
+mistral-cli --mode plan "Start a podcast"
+```
+
+### Code Generation
+```bash
+mistral-cli --mode code "Create a Python class for a bank account"
+```
+
+### Research
+```bash
+mistral-cli --mode research "What are the latest developments in quantum computing?"
+```
+
+### Interactive Session
+```bash
+mistral-cli
+> What is machine learning?
+> /mode code
+> Write a neural network in Python
+> /compact
+> /exit
+```
+
+## Troubleshooting
+
+### Common Issues
+
+**"Ollama connection failed"**
+```bash
+# Start Ollama
+ollama serve
+
+# Check model availability
+ollama list
+
+# Download model if missing
+ollama pull mistral
+```
+
+**"Search API credentials not configured"**
+```bash
+mistral-cli --setup
+```
+
+**Context window full**
+```bash
+# Manual compaction
+/compact
+
+# Or restart for fresh context
+mistral-cli
+```
+
+## Development
+
+```bash
+# Install in development mode
+pip install -e .
+
+# Run tests
+python -m pytest
+
+# Format code
+black mistral_cli/
+```
+
+## License
+
+MIT License
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Submit a pull request
